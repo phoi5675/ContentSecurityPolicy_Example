@@ -1,0 +1,59 @@
+@startuml csp_directive
+
+skinparam interface {
+  backgroundColor white
+  borderColor white
+}
+
+component script_src [
+  script-src
+]
+
+component style_src [
+  style-src
+]
+
+component img_src [
+  img-src
+]
+
+component connect_src [
+  connect-src
+]
+
+component font_src [
+  font-src
+]
+
+component media_src [
+  media-src
+]
+
+script_src -right[#white]- style_src
+style_src -right[#white]- img_src
+img_src -right[#white]- connect_src
+connect_src -right[#white]- font_src 
+font_src -right[#white]- media_src
+
+(_) as INF
+
+  script_src -down- INF
+  style_src -down- INF
+  img_src -down- INF
+  connect_src -down- INF 
+  font_src -down- INF
+  media_src -down- INF
+
+
+component default_src [
+  default-src
+]
+
+note left of INF
+directive의 attribute가 정의되지 않은 경우,
+default-src의 값을 이용함.
+end note
+
+INF -down-> default_src : fallback
+
+@enduml
