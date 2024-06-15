@@ -1,0 +1,3 @@
+@startuml csp_types
+' TODO: Directives / values 종류 간단하게 시각화
+@enduml
