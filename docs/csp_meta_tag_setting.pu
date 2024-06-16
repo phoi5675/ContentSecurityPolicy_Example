@@ -3,17 +3,17 @@
 package "<meta http-equiv='Content-Security-Policy' />" as meta {
   package "예시" as csp_meta_example {
     component csp_meta_img [
-      <img:csp_html_header.png{scale=1.0}>
+      public/index.html의 <head> 태그 내부에 아래의 <meta> 태그 추가
+      <img:csp_html_header.png{scale=0.7}>
     ]
   }
   package "구현방법" as csp_meta_impl {
-    component csp_meta_example_impl [
-      * react 기준으로 구현방법을 여기에 작성. 여러 가지 방법이 있음을 알림
-      ** public/index.html
-      ** webpack으로 bundling 할 때, CspWebpackPlugin
-      ** react-helmet
-      ** nonce(추후 설명 예정)
-    ]
+    object "빌드 단계별 CSP 생성 방법" as csp_meta_impl_example {
+      <#LightBlue,#Black>|= Build stage |= 적용 방법 |
+      <#White>|= Pre-build stage |= public/index.html 내부에 직접 <meta> 태그 생성 |
+      <#White>|= Build stage |= webpack.config.js에서 html-webpack-plugin(csp-html-webpack-plugin)을 이용하여\n html파일에 meta태그를 추가 |
+      <#White>|= Runtime stage |= react-helmet 이용하여 런타임에 동적으로 CSP 설정 |
+    }
   }
 
   csp_meta_example -down[#white]- csp_meta_impl
