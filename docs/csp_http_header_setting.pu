@@ -1,0 +1,52 @@
+@startuml csp_http_header_setting
+
+package "HTTP header" as http_header {
+  package "예시" as csp_http_header_example {
+    component csp_http_header_img [
+      * HTTP 헤더에 CSP가 설정된 예시(Mozilla Web Docs)
+      <img:csp_http_header.png{scale=0.3}>
+    ]
+  }
+
+  package "구현방법" as csp_http_header_impl {
+    package "AWS CloudFront" as aws_cloudfront {
+      component aws_cloudfront_img [
+        <img:aws_cloudfront.png{scale=0.3}>
+      ]
+      component aws_set_csp [
+        Content-Security-Policy 헤더 설정
+        <img:aws_set_csp.png{scale=0.4}>
+      ]
+
+      ' 두 이미지 정렬
+      aws_cloudfront_img -right[#white]- aws_set_csp
+    }
+
+    package "expressJS" as express_js {
+      component express_example [
+        Response 설정 시 Content-Security-Policy를 HTTP header에 추가
+        <code>
+        res.set("Content-Security-Policy", "default-src 'self'");
+        </code>
+      ]
+    }
+
+    package "기타" as etc {
+      component etc_example [
+        아래와 같은 서버 레벨에서의 프로그램에서도 설정 가능함
+        * Apache - HTTP application server
+        * Nginx - proxy server
+        * NextJS - Server Side Rendering(SSR)
+      ]
+    }
+
+    ' 패키지 정렬
+    aws_cloudfront -down[#white]- express_js
+    express_js -down[#white]- etc
+  }
+
+  ' 헤더 예시 및 구현 방법 정렬
+  csp_http_header_example -right[#white]- csp_http_header_impl
+}
+
+@enduml

@@ -1,0 +1,22 @@
+@startuml meta_tag_setting
+
+package "<meta http-equiv='Content-Security-Policy' />" as meta {
+  package "예시" as csp_meta_example {
+    component csp_meta_img [
+      <img:csp_html_header.png{scale=1.0}>
+    ]
+  }
+  package "구현방법" as csp_meta_impl {
+    component csp_meta_example_impl [
+      * react 기준으로 구현방법을 여기에 작성. 여러 가지 방법이 있음을 알림
+      ** public/index.html
+      ** webpack으로 bundling 할 때, CspWebpackPlugin
+      ** react-helmet
+      ** nonce(추후 설명 예정)
+    ]
+  }
+
+  csp_meta_example -down[#white]- csp_meta_impl
+}
+
+@enduml
