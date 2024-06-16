@@ -1,8 +1,10 @@
 @startuml csp_directive
 
 skinparam interface {
-  backgroundColor white
-  borderColor white
+  borderColor Transparent
+  backgroundColor #000000
+  fontColor Transparent
+  stereotypeFontColor Transparent
 }
 
 component script_src [
@@ -35,7 +37,7 @@ img_src -right[#white]- connect_src
 connect_src -right[#white]- font_src 
 font_src -right[#white]- media_src
 
-(_) as INF
+interface inf as INF
 
   script_src -down- INF
   style_src -down- INF
@@ -49,7 +51,7 @@ component default_src [
   default-src
 ]
 
-note left of INF
+note left of default_src
 directive의 attribute가 정의되지 않은 경우,
 default-src의 값을 이용함.
 end note
