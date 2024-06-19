@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 import { Helmet } from "react-helmet-async";
-import cspConfig from "../constants/cspConfog";
+import cspConfig from "../constants/cspConfig";
 import {
   ContentSecurityPolicySrcType,
   ContentSecurityPolicyType,
@@ -8,7 +8,7 @@ import {
 
 export interface CspHeaderWrapperProps {
   // eslint-disable-next-line no-unused-vars
-  additionalConfig: ContentSecurityPolicyType;
+  additionalConfig?: ContentSecurityPolicyType;
 }
 
 const CspHeaderWrapper = ({ additionalConfig }: CspHeaderWrapperProps) => {
@@ -39,8 +39,10 @@ const CspHeaderWrapper = ({ additionalConfig }: CspHeaderWrapperProps) => {
       cspContent += `${key} ${Array.from(value).join(" ")};`;
     }
 
+    console.log("", cspConfig);
+    console.log(cspContent);
     cspContentRef.current = cspContent;
-  }, []);
+  }, [additionalConfig]);
   return (
     <>
       <Helmet>
