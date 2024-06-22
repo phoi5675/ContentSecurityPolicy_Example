@@ -6,6 +6,7 @@ import ViolatedCsp, { ViolatedCspConfig } from "./ViolatedCsp";
 
 interface PagesType {
   path: string;
+  pathname: string;
   // eslint-disable-next-line no-unused-vars
   Element: () => JSX.Element;
   pageCspConfig?: ContentSecurityPolicyType;
@@ -14,18 +15,22 @@ interface PagesType {
 const Pages: PagesType[] = [
   {
     path: "/",
+    pathname: "Home",
     Element: Home,
   },
   {
     path: "/satisfied-csp",
+    pathname: "Satisfied-csp",
     Element: SatisfiedCsp,
   },
   {
-    path: "using-nonce-with-ref",
+    path: "/using-nonce-with-ref",
+    pathname: "Using-nonce-with-ref",
     Element: UsingNonceWithRef,
   },
   {
-    path: "violated-csp",
+    path: "/violated-csp",
+    pathname: "Violated-csp",
     Element: ViolatedCsp,
     pageCspConfig: ViolatedCspConfig,
   },

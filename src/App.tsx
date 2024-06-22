@@ -16,18 +16,11 @@ const App = () => {
       <CspHeaderWrapper additionalConfig={additionalConfig} />
       <BrowserRouter>
         <nav className="nav-link">
-          <Link className="link" to={"/"}>
-            Home
-          </Link>
-          <Link className="link" to={"/satisfied-csp"}>
-            satisfied-csp
-          </Link>
-          <Link className="link" to={"/using-nonce-with-ref"}>
-            using-nonce-with-ref
-          </Link>
-          <Link className="link" to={"/violated-csp"}>
-            violated-csp
-          </Link>
+          {Pages.map((page, index) => (
+            <Link className="link" key={`link-${index}`} to={page.path}>
+              {page.pathname}
+            </Link>
+          ))}
         </nav>
         <div className="content">
           <div className="page">
