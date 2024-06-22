@@ -1,16 +1,26 @@
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import { BrowserRouter, Link, Route, Routes } from "react-router-dom";
 import CspHeaderWrapper from "./components/wrapper/CspHeaderWrapper";
 import RouterWrapper from "./components/wrapper/RouterWrapper";
 import Pages from "./pages";
-import { ContentSecurityPolicyType } from "./utils/ContentSecurityPolicy/ContentSecurityPolicyType";
+import cspSetter from "./utils/CspSetter";
 
 const App = () => {
-  const additionalCspConfigRef = useRef<ContentSecurityPolicyType>({});
+  const cspMetaTagRef = useRef<HTMLMetaElement | null>(null);
+
+  // App 컴포넌트가 마운트 될 때, <meta> 태그를 찾아서, ref에 저장한다.
+  useEffect(() => {
+    const cspElem = document.getElementById(
+      "Content-Security-Policy"
+    ) as HTMLMetaElement;
+    if (cspElem) {
+      cspMetaTagRef.current = cspElem;
+    }
+  }, []);
 
   return (
     <div>
-      <CspHeaderWrapper ref={additionalCspConfigRef} />
+      <CspHeaderWrapper />
       <BrowserRouter>
         <nav className="nav-link">
           {Pages.map((page, index) => (
@@ -19,8 +29,10 @@ const App = () => {
               key={`link-${index}`}
               to={page.path}
               onClick={() => {
-                console.log(`[onClick] pageCspConfig = `, page.pageCspConfig);
-                additionalCspConfigRef.current = page.pageCspConfig || {};
+                cspSetter({
+                  additionalCspConfig: page.pageCspConfig || {},
+                  cspMetaTagRef,
+                });
               }}
             >
               {page.pathname}
