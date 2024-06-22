@@ -1,39 +1,20 @@
-import {
-  Dispatch,
-  ReactNode,
-  SetStateAction,
-  useCallback,
-  useEffect,
-} from "react";
-import cspConfig from "../../constants/cspConfig";
-import { ContentSecurityPolicyType } from "../../utils/ContentSecurityPolicy/ContentSecurityPolicyType";
+import { useEffect } from "react";
+import { useLocation } from "react-router-dom";
 
 interface RouterWrapperProps {
-  children: ReactNode;
-  additionalConfig: ContentSecurityPolicyType | undefined;
-  setAdditionalConfig: Dispatch<
-    SetStateAction<ContentSecurityPolicyType | undefined>
-  >;
+  children: JSX.Element;
 }
-const RouterWrapper = (
-  { children, additionalConfig, setAdditionalConfig }: RouterWrapperProps,
-  props: { page: string }
-) => {
-  const { page } = props;
-  useCallback(() => {
-    console.log(
-      `[Router wrapper][${page}] additional config = `,
-      additionalConfig
-    );
-    setAdditionalConfig(additionalConfig);
-  }, [additionalConfig]);
+
+// TODO: 인터페이스 및 코드 수정
+const RouterWrapper = ({ children }: RouterWrapperProps) => {
+  const location = useLocation();
+  const page = location.pathname.substring(1) || "Home";
 
   // Component unmount 하는 경우에 기본 config 값으로 rollback 한다.
   useEffect(() => {
-    setAdditionalConfig(cspConfig);
+    console.log(`[Router wrapper][${page}] unmounted`);
   });
 
   return children;
 };
-
 export default RouterWrapper;

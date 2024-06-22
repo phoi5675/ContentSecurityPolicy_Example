@@ -1,23 +1,28 @@
-import { useState } from "react";
+import { useRef } from "react";
 import { BrowserRouter, Link, Route, Routes } from "react-router-dom";
 import CspHeaderWrapper from "./components/wrapper/CspHeaderWrapper";
 import RouterWrapper from "./components/wrapper/RouterWrapper";
-import cspConfig from "./constants/cspConfig";
 import Pages from "./pages";
 import { ContentSecurityPolicyType } from "./utils/ContentSecurityPolicy/ContentSecurityPolicyType";
 
 const App = () => {
-  const [additionalConfig, setAdditonalConfig] = useState<
-    ContentSecurityPolicyType | undefined
-  >(cspConfig);
+  const additionalCspConfigRef = useRef<ContentSecurityPolicyType>({});
 
   return (
     <div>
-      <CspHeaderWrapper additionalConfig={additionalConfig} />
+      <CspHeaderWrapper ref={additionalCspConfigRef} />
       <BrowserRouter>
         <nav className="nav-link">
           {Pages.map((page, index) => (
-            <Link className="link" key={`link-${index}`} to={page.path}>
+            <Link
+              className="link"
+              key={`link-${index}`}
+              to={page.path}
+              onClick={() => {
+                console.log(`[onClick] pageCspConfig = `, page.pageCspConfig);
+                additionalCspConfigRef.current = page.pageCspConfig || {};
+              }}
+            >
               {page.pathname}
             </Link>
           ))}
@@ -30,10 +35,7 @@ const App = () => {
                   key={`page-${index}`}
                   path={page.path}
                   element={
-                    <RouterWrapper
-                      additionalConfig={page.pageCspConfig}
-                      setAdditionalConfig={setAdditonalConfig}
-                    >
+                    <RouterWrapper>
                       <page.Element />
                     </RouterWrapper>
                   }
