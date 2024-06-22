@@ -45,7 +45,7 @@ const cspSetter = ({
   // 병합한 CSP 정책을 content attribute에 넣기 위해 string으로 변환
   let cspContent = "";
   for (const [key, value] of Object.entries(_csp)) {
-    cspContent += `${key} ${Array.from(value).join(" ")};`;
+    cspContent += `${key} ${Array.from(value).join(" ")}; `;
   }
 
   console.log(`[CspSetter] result of cspContent = ${cspContent}`);
