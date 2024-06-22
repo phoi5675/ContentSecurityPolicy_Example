@@ -3,6 +3,7 @@ import { BrowserRouter, Link, Route, Routes } from "react-router-dom";
 import SwitchCsp, { SwitchCspState } from "./components/SwitchCsp";
 import CspHeaderWrapper from "./components/wrapper/CspHeaderWrapper";
 import RouterWrapper from "./components/wrapper/RouterWrapper";
+import cspConfig from "./constants/cspConfig";
 import Pages from "./pages";
 import cspSetter from "./utils/CspSetter";
 
@@ -10,6 +11,7 @@ const App = () => {
   const [state, setState] = useState<SwitchCspState>({
     isHttpsEnabled: false,
     isNonceEnabled: false,
+    isUnsafeInlineEnabled: false,
   });
 
   const cspMetaTagRef = useRef<HTMLMetaElement | null>(null);
@@ -22,6 +24,12 @@ const App = () => {
     if (cspElem) {
       cspMetaTagRef.current = cspElem;
     }
+
+    // 새로고침 하는 경우에도 기본 CSP를 적용한다.
+    cspSetter({
+      additionalCspConfig: cspConfig,
+      cspMetaTagRef,
+    });
   }, []);
 
   return (
@@ -35,6 +43,7 @@ const App = () => {
               key={`link-${index}`}
               to={page.path}
               onClick={() => {
+                // 페이지 이동 시, 해당 페이지에 사전 설정된 CSP로 변경한다.
                 cspSetter({
                   additionalCspConfig: page.pageCspConfig || {},
                   cspMetaTagRef,
@@ -59,7 +68,7 @@ const App = () => {
                     key={`page-${index}`}
                     path={page.path}
                     element={
-                      <RouterWrapper>
+                      <RouterWrapper cspMetaTagRef={cspMetaTagRef}>
                         <page.Element />
                       </RouterWrapper>
                     }

@@ -1,5 +1,6 @@
 import { ContentSecurityPolicyType } from "../types/ContentSecurityPolicyType";
 import Home from "./Home";
+import JoditPage, { JoditCspConfig } from "./JoditPage";
 import SatisfiedCsp from "./SatisfiedCsp";
 import UsingNonceWithRef from "./UsingNonceWithRef";
 import ViolatedCsp, { ViolatedCspConfig } from "./ViolatedCsp";
@@ -33,6 +34,12 @@ const Pages: PagesType[] = [
     pathname: "Violated-csp",
     Element: ViolatedCsp,
     pageCspConfig: ViolatedCspConfig,
+  },
+  {
+    path: "/jodit",
+    pathname: "Jodit",
+    Element: JoditPage,
+    pageCspConfig: JoditCspConfig,
   },
 ];
 export default Pages;

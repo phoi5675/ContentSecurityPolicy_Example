@@ -10,6 +10,7 @@ import { ChangeEvent, Dispatch } from "react";
 export interface SwitchCspState {
   isHttpsEnabled: boolean;
   isNonceEnabled: boolean;
+  isUnsafeInlineEnabled: boolean;
 }
 
 interface SwitchCspProps {
@@ -34,7 +35,7 @@ const SwitchCsp = ({ state, setState }: SwitchCspProps) => {
               name="isHttpsEnabled"
             />
           }
-          label="Enable HTTPS"
+          label="Enable https"
         />
         <FormControlLabel
           control={
@@ -44,7 +45,17 @@ const SwitchCsp = ({ state, setState }: SwitchCspProps) => {
               name="isNonceEnabled"
             />
           }
-          label="Enable Nonce"
+          label="Enable 'nonce-*'"
+        />
+        <FormControlLabel
+          control={
+            <Switch
+              checked={state.isUnsafeInlineEnabled}
+              onChange={handleChange}
+              name="isUnsafeInlineEnabled"
+            />
+          }
+          label="Enable 'unsafe-inline'"
         />
       </FormGroup>
     </FormControl>
