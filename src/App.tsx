@@ -1,15 +1,19 @@
+import { useState } from "react";
 import { BrowserRouter, Link, Route, Routes } from "react-router-dom";
-import Console from "./components/common/Console";
-import Home from "./pages/Home";
-import SatisfiedCsp from "./pages/SatisfiedCsp";
-import UsingNonceWithRef from "./pages/UsingNonceWithRef";
-import ViolatedCsp from "./pages/ViolatedCsp";
-import CspHeaderWrapper from "./utils/CspHeaderWrapper";
+import CspHeaderWrapper from "./components/wrapper/CspHeaderWrapper";
+import RouterWrapper from "./components/wrapper/RouterWrapper";
+import cspConfig from "./constants/cspConfig";
+import Pages from "./pages";
+import { ContentSecurityPolicyType } from "./utils/ContentSecurityPolicy/ContentSecurityPolicyType";
 
 const App = () => {
+  const [additionalConfig, setAdditonalConfig] = useState<
+    ContentSecurityPolicyType | undefined
+  >(cspConfig);
+
   return (
     <div>
-      <CspHeaderWrapper />
+      <CspHeaderWrapper additionalConfig={additionalConfig} />
       <BrowserRouter>
         <nav className="nav-link">
           <Link className="link" to={"/"}>
@@ -28,18 +32,23 @@ const App = () => {
         <div className="content">
           <div className="page">
             <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/satisfied-csp" element={<SatisfiedCsp />} />
-              <Route
-                path="/using-nonce-with-ref"
-                element={<UsingNonceWithRef />}
-              />
-              <Route path="/violated-csp" element={<ViolatedCsp />} />
+              {Pages.map((page, index) => (
+                <Route
+                  key={`page-${index}`}
+                  path={page.path}
+                  element={
+                    <RouterWrapper
+                      additionalConfig={page.pageCspConfig}
+                      setAdditionalConfig={setAdditonalConfig}
+                    >
+                      <page.Element />
+                    </RouterWrapper>
+                  }
+                />
+              ))}
             </Routes>
           </div>
-          <div className="console">
-            <Console />
-          </div>
+          <div className="console">{/* <Console /> */}</div>
         </div>
       </BrowserRouter>
     </div>
