@@ -1,4 +1,4 @@
-import { ContentSecurityPolicyType } from "../utils/ContentSecurityPolicy/ContentSecurityPolicyType";
+import { ContentSecurityPolicyType } from "../types/ContentSecurityPolicyType";
 import Home from "./Home";
 import SatisfiedCsp from "./SatisfiedCsp";
 import UsingNonceWithRef from "./UsingNonceWithRef";

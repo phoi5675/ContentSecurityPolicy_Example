@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { ContentSecurityPolicyType } from "../utils/ContentSecurityPolicy/ContentSecurityPolicyType";
+import { ContentSecurityPolicyType } from "../types/ContentSecurityPolicyType";
 
 export const ViolatedCspConfig: ContentSecurityPolicyType = {
   "default-src": new Set<string>(["'none'"]),

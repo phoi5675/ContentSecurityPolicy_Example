@@ -1,4 +1,4 @@
-import { ContentSecurityPolicyType } from "../utils/ContentSecurityPolicy/ContentSecurityPolicyType";
+import { ContentSecurityPolicyType } from "../types/ContentSecurityPolicyType";
 
 const cspConfig: ContentSecurityPolicyType = {
   "default-src": new Set<string>(["'self'"]),
