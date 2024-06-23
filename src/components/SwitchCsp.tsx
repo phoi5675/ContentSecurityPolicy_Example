@@ -6,12 +6,25 @@ import {
   Switch,
 } from "@mui/material";
 import { ChangeEvent, Dispatch } from "react";
+import { ContentSecurityPolicyType } from "../types/ContentSecurityPolicyType";
 
 export interface SwitchCspState {
+  [key: string]: boolean;
   isHttpsEnabled: boolean;
-  isNonceEnabled: boolean;
   isUnsafeInlineEnabled: boolean;
 }
+
+export type SwitchCspDictType = {
+  isHttpsEnabled: ContentSecurityPolicyType;
+  isUnsafeInlineEnabled: ContentSecurityPolicyType;
+};
+
+export const SwitchCspDict: SwitchCspDictType = {
+  isHttpsEnabled: { "default-src": new Set<string>(["https:"]) },
+  isUnsafeInlineEnabled: {
+    "style-src": new Set<string>(["'unsafe-inline'"]),
+  },
+};
 
 interface SwitchCspProps {
   state: SwitchCspState;
@@ -20,7 +33,6 @@ interface SwitchCspProps {
 
 const SwitchCsp = ({ state, setState }: SwitchCspProps) => {
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    console.log(`${event.target.name} : ${event.target.checked}`);
     setState({ ...state, [event.target.name]: event.target.checked });
   };
   return (
@@ -36,16 +48,6 @@ const SwitchCsp = ({ state, setState }: SwitchCspProps) => {
             />
           }
           label="Enable https"
-        />
-        <FormControlLabel
-          control={
-            <Switch
-              checked={state.isNonceEnabled}
-              onChange={handleChange}
-              name="isNonceEnabled"
-            />
-          }
-          label="Enable 'nonce-*'"
         />
         <FormControlLabel
           control={

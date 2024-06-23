@@ -17,7 +17,13 @@ const InlineStylePage = () => {
         "background-color: red;"
       );
     }
-  }, []);
+    console.log(`[Inline-style] page loaded`);
+
+    const elem = document.getElementById("Content-Security-Policy");
+    if (elem) {
+      console.log(`[Inline-style] policy = `, elem.getAttribute("content"));
+    }
+  });
   return (
     <div>
       <h1 id="inline-style-page-header" ref={InlineStylePageHeaderRef}>
