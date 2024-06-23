@@ -18,7 +18,7 @@ export interface SwitchCspState {
 export type SwitchCspDictType = {
   isHttpsEnabled: ContentSecurityPolicyType;
   isUnsafeInlineEnabled: ContentSecurityPolicyType;
-  isunsafeHashesEnabled: ContentSecurityPolicyType;
+  isUnsafeHashesEnabled: ContentSecurityPolicyType;
 };
 
 export const switchCspDict: SwitchCspDictType = {
@@ -26,7 +26,7 @@ export const switchCspDict: SwitchCspDictType = {
   isUnsafeInlineEnabled: {
     "style-src": new Set<string>(["'unsafe-inline'"]),
   },
-  isunsafeHashesEnabled: {
+  isUnsafeHashesEnabled: {
     "default-src": new Set<string>(["'unsafe-hashes'"]),
   },
 };
@@ -34,11 +34,18 @@ export const switchCspDict: SwitchCspDictType = {
 export interface SwitchCspProps {
   state: SwitchCspState;
   setState: Dispatch<SetStateAction<SwitchCspState>>;
+  // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-explicit-any
+  onChangeHandler: (event?: any, state?: SwitchCspState) => void;
 }
 
-const SwitchCsp = ({ state, setState }: SwitchCspProps) => {
+const SwitchCsp = ({ state, setState, onChangeHandler }: SwitchCspProps) => {
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     setState({ ...state, [event.target.name]: event.target.checked });
+    onChangeHandler(undefined, {
+      ...state,
+      [event.target.name]: event.target.checked,
+    });
+    window.location.reload();
   };
   return (
     <FormControl component="fieldset" variant="standard">
@@ -74,7 +81,7 @@ const SwitchCsp = ({ state, setState }: SwitchCspProps) => {
           }
           label="'unsafe-hashes'"
         />
-        {/* TOOD: Jodit 관련 스위치 추가 */}
+        {/* TODO: Jodit 관련 스위치 추가 */}
       </FormGroup>
     </FormControl>
   );

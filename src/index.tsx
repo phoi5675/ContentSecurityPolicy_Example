@@ -1,3 +1,4 @@
+import { CookiesProvider } from "react-cookie";
 import ReactDOM from "react-dom/client";
 import { HelmetProvider } from "react-helmet-async";
 import App from "./App";
@@ -11,9 +12,11 @@ const root = ReactDOM.createRoot(
 const helmetContext = {};
 
 root.render(
-  <HelmetProvider context={helmetContext}>
-    <App />
-  </HelmetProvider>
+  <CookiesProvider>
+    <HelmetProvider context={helmetContext}>
+      <App />
+    </HelmetProvider>
+  </CookiesProvider>
 );
 
 // If you want to start measuring performance in your app, pass a function

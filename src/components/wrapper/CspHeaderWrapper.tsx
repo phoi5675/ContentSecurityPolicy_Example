@@ -1,46 +1,25 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef } from "react";
 import { Helmet } from "react-helmet-async";
-import cspConfig from "../../constants/cspConfig";
-import { ContentSecurityPolicySrcType } from "../../types/ContentSecurityPolicyType";
-import cspSetter from "../../utils/CspSetter";
-import { SwitchCspState, switchCspDict } from "../SwitchCsp";
+import { getCookie } from "../../utils/cookieUtil";
 
-interface CspHeaderWrapperProps {
-  state: SwitchCspState;
-}
-
-const CspHeaderWrapper = ({ state }: CspHeaderWrapperProps) => {
-  const [cspContent, setCspContent] = useState<string>("");
+const CspHeaderWrapper = () => {
+  const cspMetaRef = useRef<HTMLMetaElement | null>(null);
 
   useEffect(() => {
-    const mergedConfig = Object.assign({}, cspConfig);
+    const cookieCspContent = getCookie("cspContent") as string | null;
 
-    for (const [isEnabled, enabledCspConfig] of Object.entries(switchCspDict)) {
-      if (isEnabled in state && state[isEnabled]) {
-        for (const [src, policy] of Object.entries(enabledCspConfig)) {
-          const _src = src as ContentSecurityPolicySrcType;
-          mergedConfig[_src] = new Set<string>([
-            ...Array.from(mergedConfig[_src]!),
-            ...Array.from(policy),
-          ]);
-        }
-      }
-    }
+    cspMetaRef.current = document.getElementById(
+      "Content-Security-Policy"
+    ) as HTMLMetaElement;
 
-    setCspContent(
-      cspSetter({
-        additionalCspConfig: mergedConfig,
-      })
-    );
-  }, [state]);
+    cspMetaRef.current.setAttribute("content", cookieCspContent || "");
+
+    console.log(`[CspHeader] csp loaded`);
+  }, []);
 
   return (
     <Helmet>
-      <meta
-        httpEquiv="Content-Security-Policy"
-        id="Content-Security-Policy"
-        content={cspContent}
-      />
+      <meta httpEquiv="Content-Security-Policy" id="Content-Security-Policy" />
     </Helmet>
   );
 };
