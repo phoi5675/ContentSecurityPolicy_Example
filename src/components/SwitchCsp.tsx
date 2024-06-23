@@ -34,12 +34,10 @@ export const switchCspDict: SwitchCspDictType = {
 export interface SwitchCspProps {
   state: SwitchCspState;
   setState: Dispatch<SetStateAction<SwitchCspState>>;
-  setIsLoading: Dispatch<SetStateAction<boolean>>;
 }
 
-const SwitchCsp = ({ state, setState, setIsLoading }: SwitchCspProps) => {
+const SwitchCsp = ({ state, setState }: SwitchCspProps) => {
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setIsLoading(true);
     setState({ ...state, [event.target.name]: event.target.checked });
   };
   return (

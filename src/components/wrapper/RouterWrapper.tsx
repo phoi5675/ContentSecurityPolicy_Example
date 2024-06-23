@@ -1,9 +1,8 @@
 interface RouterWrapperProps {
-  isLoading: boolean;
   children: JSX.Element;
 }
 
-const RouterWrapper = ({ isLoading, children }: RouterWrapperProps) => {
-  return isLoading ? <div></div> : children;
+const RouterWrapper = ({ children }: RouterWrapperProps) => {
+  return children;
 };
 export default RouterWrapper;

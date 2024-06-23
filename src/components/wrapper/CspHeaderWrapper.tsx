@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import cspConfig from "../../constants/cspConfig";
 import { ContentSecurityPolicySrcType } from "../../types/ContentSecurityPolicyType";
@@ -7,15 +7,9 @@ import { SwitchCspState, switchCspDict } from "../SwitchCsp";
 
 interface CspHeaderWrapperProps {
   state: SwitchCspState;
-  isLoading: boolean;
-  setIsLoading: Dispatch<SetStateAction<boolean>>;
 }
 
-const CspHeaderWrapper = ({
-  state,
-  isLoading,
-  setIsLoading,
-}: CspHeaderWrapperProps) => {
+const CspHeaderWrapper = ({ state }: CspHeaderWrapperProps) => {
   const [cspContent, setCspContent] = useState<string>("");
 
   useEffect(() => {
@@ -38,8 +32,7 @@ const CspHeaderWrapper = ({
         additionalCspConfig: mergedConfig,
       })
     );
-    setIsLoading(false);
-  }, [isLoading]);
+  }, [state]);
 
   return (
     <Helmet>
