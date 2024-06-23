@@ -17,8 +17,6 @@ import cspSetter from "./utils/cspSetter";
 /**
  * list of TODOs
  * - [ ] xss 예시 추가 및 script-src 스위치 추가(실제로 인라인 스크립트가 실행되지 않는 것을 보여줌)
- * - [ ] nonce 관련 기능 구현 및 nonce 스위치 삭제 -> nonce는 스위치가 굳이 필요한가...?
- * - [ ] Jodit에서 cdn으로 ace editor 추가로 불러서 csp 오류 발생하는 것도 구현
  */
 
 const App = () => {
@@ -64,11 +62,16 @@ const App = () => {
     const cookieOpts: CookieSetOptions = {
       expires: dayjs().add(1, "hour").toDate(),
     };
-    // CSP content 쿠키에 저장
-    setCookie("cspContent", cspContent, cookieOpts);
+
+    if (getCookie("cspContent") === undefined) {
+      // 최초에 CSP가 쿠키에 없는 경우, 기본 정책 저장
+      setCookie("cspContent", cspContent, cookieOpts);
+    }
     // state가 있는 경우, 쿠키에 저장
     if (state) {
       setCookie("state", state, cookieOpts);
+      // CSP content 쿠키에 저장
+      setCookie("cspContent", cspContent, cookieOpts);
     }
   };
 

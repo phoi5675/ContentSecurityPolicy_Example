@@ -81,7 +81,6 @@ const SwitchCsp = ({ state, setState, onChangeHandler }: SwitchCspProps) => {
           }
           label="'unsafe-hashes'"
         />
-        {/* TODO: Jodit 관련 스위치 추가 */}
       </FormGroup>
     </FormControl>
   );

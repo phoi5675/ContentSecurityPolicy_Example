@@ -8,7 +8,6 @@ export const HomePage = () => {
   }, []);
   return (
     <>
-      {/* TODO: 내용 채우기 */}
       <h1>Home</h1>
       <p>{home}</p>
     </>
