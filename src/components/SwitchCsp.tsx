@@ -28,6 +28,7 @@ export const switchCspDict: SwitchCspDictType = {
   isUnsafeInlineEnabled: {
     "default-src": new Set<string>(["'unsafe-inline'"]),
     "script-src": new Set<string>(["'unsafe-inline'"]),
+    "style-src": new Set<string>(["'unsafe-inline'"]),
   },
   isUnsafeHashesEnabled: {
     "default-src": new Set<string>(["'unsafe-hashes'"]),
