@@ -6,13 +6,13 @@ export const ViolatedCspConfig: ContentSecurityPolicyType = {
   "style-src": new Set<string>(["'none'"]),
 };
 
-const ViolatedCsp = () => {
-  const violatedCspHeaderRef = useRef<HTMLHeadingElement>(null);
+const InlineStylePage = () => {
+  const InlineStylePageHeaderRef = useRef<HTMLHeadingElement>(null);
   useEffect(() => {
     // react의 inline-style은 csp의 영향을 받지 않음.
     // setAttribute로 직접 element를 조작해서 csp 설정되도록 변경
-    if (violatedCspHeaderRef.current) {
-      violatedCspHeaderRef.current.setAttribute(
+    if (InlineStylePageHeaderRef.current) {
+      InlineStylePageHeaderRef.current.setAttribute(
         "style",
         "background-color: red;"
       );
@@ -20,11 +20,11 @@ const ViolatedCsp = () => {
   }, []);
   return (
     <div>
-      <h1 id="violated-csp-header" ref={violatedCspHeaderRef}>
-        ViolatedCsp
+      <h1 id="inline-style-page-header" ref={InlineStylePageHeaderRef}>
+        Inline style page
       </h1>
     </div>
   );
 };
 
-export default ViolatedCsp;
+export default InlineStylePage;
