@@ -1,7 +1,8 @@
 import { ContentSecurityPolicyType } from "../types/ContentSecurityPolicyType";
-import Home from "./Home";
+import HomePage from "./HomePage";
 import InlineStylePage, { ViolatedCspConfig } from "./InlineStylePage";
 import JoditPage, { JoditCspConfig } from "./JoditPage";
+import XssPage from "./XssPage";
 
 interface PagesType {
   path: string;
@@ -15,7 +16,12 @@ const Pages: PagesType[] = [
   {
     path: "/",
     pathname: "Home",
-    Element: Home,
+    Element: HomePage,
+  },
+  {
+    path: "/xss",
+    pathname: "XSS",
+    Element: XssPage,
   },
   {
     path: "/inline-style",

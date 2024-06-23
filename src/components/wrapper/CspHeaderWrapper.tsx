@@ -1,34 +1,52 @@
-import { useEffect, useRef } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import cspConfig from "../../constants/cspConfig";
+import { ContentSecurityPolicySrcType } from "../../types/ContentSecurityPolicyType";
 import cspSetter from "../../utils/CspSetter";
+import { SwitchCspState, switchCspDict } from "../SwitchCsp";
 
-const CspHeaderWrapper = () => {
-  const metaRef = useRef<HTMLMetaElement | null>(null);
+interface CspHeaderWrapperProps {
+  state: SwitchCspState;
+  isLoading: boolean;
+  setIsLoading: Dispatch<SetStateAction<boolean>>;
+}
+
+const CspHeaderWrapper = ({
+  state,
+  isLoading,
+  setIsLoading,
+}: CspHeaderWrapperProps) => {
+  const [cspContent, setCspContent] = useState<string>("");
+
   useEffect(() => {
-    metaRef.current = document.getElementById(
-      "Content-Security-Policy"
-    ) as HTMLMetaElement;
-    if (!metaRef.current) {
-      return;
+    const mergedConfig = Object.assign({}, cspConfig);
+
+    for (const [isEnabled, enabledCspConfig] of Object.entries(switchCspDict)) {
+      if (isEnabled in state && state[isEnabled]) {
+        for (const [src, policy] of Object.entries(enabledCspConfig)) {
+          const _src = src as ContentSecurityPolicySrcType;
+          mergedConfig[_src] = new Set<string>([
+            ...Array.from(mergedConfig[_src]!),
+            ...Array.from(policy),
+          ]);
+        }
+      }
     }
 
-    cspSetter({
-      additionalCspConfig: cspConfig,
-      cspMetaTagRef: metaRef,
-    });
+    setCspContent(
+      cspSetter({
+        additionalCspConfig: mergedConfig,
+      })
+    );
+    setIsLoading(false);
+  }, [isLoading]);
 
-    return () => {
-      metaRef.current?.remove();
-    };
-  }, []);
   return (
     <Helmet>
       <meta
         httpEquiv="Content-Security-Policy"
         id="Content-Security-Policy"
-        content=""
-        ref={metaRef}
+        content={cspContent}
       />
     </Helmet>
   );

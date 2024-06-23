@@ -5,34 +5,41 @@ import {
   FormLabel,
   Switch,
 } from "@mui/material";
-import { ChangeEvent, Dispatch } from "react";
+import { ChangeEvent, Dispatch, SetStateAction } from "react";
 import { ContentSecurityPolicyType } from "../types/ContentSecurityPolicyType";
 
 export interface SwitchCspState {
   [key: string]: boolean;
   isHttpsEnabled: boolean;
   isUnsafeInlineEnabled: boolean;
+  isUnsafeHashesEnabled: boolean;
 }
 
 export type SwitchCspDictType = {
   isHttpsEnabled: ContentSecurityPolicyType;
   isUnsafeInlineEnabled: ContentSecurityPolicyType;
+  isunsafeHashesEnabled: ContentSecurityPolicyType;
 };
 
-export const SwitchCspDict: SwitchCspDictType = {
+export const switchCspDict: SwitchCspDictType = {
   isHttpsEnabled: { "default-src": new Set<string>(["https:"]) },
   isUnsafeInlineEnabled: {
     "style-src": new Set<string>(["'unsafe-inline'"]),
   },
+  isunsafeHashesEnabled: {
+    "default-src": new Set<string>(["'unsafe-hashes'"]),
+  },
 };
 
-interface SwitchCspProps {
+export interface SwitchCspProps {
   state: SwitchCspState;
-  setState: Dispatch<SwitchCspState>;
+  setState: Dispatch<SetStateAction<SwitchCspState>>;
+  setIsLoading: Dispatch<SetStateAction<boolean>>;
 }
 
-const SwitchCsp = ({ state, setState }: SwitchCspProps) => {
+const SwitchCsp = ({ state, setState, setIsLoading }: SwitchCspProps) => {
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setIsLoading(true);
     setState({ ...state, [event.target.name]: event.target.checked });
   };
   return (
@@ -47,7 +54,7 @@ const SwitchCsp = ({ state, setState }: SwitchCspProps) => {
               name="isHttpsEnabled"
             />
           }
-          label="Enable https"
+          label="https"
         />
         <FormControlLabel
           control={
@@ -57,8 +64,19 @@ const SwitchCsp = ({ state, setState }: SwitchCspProps) => {
               name="isUnsafeInlineEnabled"
             />
           }
-          label="Enable 'unsafe-inline'"
+          label="'unsafe-inline'"
         />
+        <FormControlLabel
+          control={
+            <Switch
+              checked={state.isUnsafeHashesEnabled}
+              onChange={handleChange}
+              name="isUnsafeHashesEnabled"
+            />
+          }
+          label="'unsafe-hashes'"
+        />
+        {/* TOOD: Jodit 관련 스위치 추가 */}
       </FormGroup>
     </FormControl>
   );

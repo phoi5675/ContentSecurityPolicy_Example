@@ -7,8 +7,11 @@ import reportWebVitals from "./reportWebVitals";
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
+
+const helmetContext = {};
+
 root.render(
-  <HelmetProvider>
+  <HelmetProvider context={helmetContext}>
     <App />
   </HelmetProvider>
 );

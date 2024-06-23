@@ -1,4 +1,3 @@
-import { RefObject } from "react";
 import cspConfig from "../constants/cspConfig";
 import {
   ContentSecurityPolicySrcType,
@@ -7,16 +6,9 @@ import {
 
 interface CspSetterArgs {
   additionalCspConfig: ContentSecurityPolicyType;
-  cspMetaTagRef: RefObject<HTMLMetaElement>;
 }
 
-const cspSetter = ({
-  additionalCspConfig,
-  cspMetaTagRef,
-}: CspSetterArgs): void => {
-  if (cspMetaTagRef.current === null) {
-    return;
-  }
+const cspSetter = ({ additionalCspConfig }: CspSetterArgs): string => {
   console.log(`[CspSetter] additionalCspConfig = `, additionalCspConfig);
   const _csp = Object.assign({}, cspConfig);
 
@@ -50,7 +42,8 @@ const cspSetter = ({
 
   console.log(`[CspSetter] result of cspContent = ${cspContent}`);
   console.log("csp loaded");
-  cspMetaTagRef.current.content = cspContent || "";
+
+  return cspContent;
 };
 
 export default cspSetter;

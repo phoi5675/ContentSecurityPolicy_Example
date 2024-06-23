@@ -7,15 +7,21 @@ export const ViolatedCspConfig: ContentSecurityPolicyType = {
 };
 
 const InlineStylePage = () => {
-  const InlineStylePageHeaderRef = useRef<HTMLHeadingElement>(null);
+  const inlineStylePageDivRef = useRef<HTMLDivElement | null>(null);
+
   useEffect(() => {
+    inlineStylePageDivRef.current = document.getElementById(
+      "inline-style-page-div"
+    ) as HTMLDivElement;
     // react의 inline-style은 csp의 영향을 받지 않음.
     // setAttribute로 직접 element를 조작해서 csp 설정되도록 변경
-    if (InlineStylePageHeaderRef.current) {
-      InlineStylePageHeaderRef.current.setAttribute(
-        "style",
-        "background-color: red;"
-      );
+    if (inlineStylePageDivRef.current) {
+      inlineStylePageDivRef.current.innerHTML = `
+      <div style="background-color: red;">
+        <h1>Inline style page</h1>
+        <p>Inline style page with background color</p>
+      </div>
+      `;
     }
     console.log(`[Inline-style] page loaded`);
 
@@ -23,13 +29,11 @@ const InlineStylePage = () => {
     if (elem) {
       console.log(`[Inline-style] policy = `, elem.getAttribute("content"));
     }
-  });
+  }, []);
   return (
-    <div>
-      <h1 id="inline-style-page-header" ref={InlineStylePageHeaderRef}>
-        Inline style page
-      </h1>
-    </div>
+    <>
+      <div id="inline-style-page-div"></div>
+    </>
   );
 };
 

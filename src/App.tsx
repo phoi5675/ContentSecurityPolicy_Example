@@ -16,15 +16,29 @@ const App = () => {
   const [state, setState] = useState<SwitchCspState>({
     isHttpsEnabled: false,
     isUnsafeInlineEnabled: false,
+    isUnsafeHashesEnabled: false,
   });
+
+  const [isLoading, setisLoading] = useState<boolean>(false);
 
   return (
     <div>
-      <CspHeaderWrapper />
+      <CspHeaderWrapper
+        state={state}
+        isLoading={isLoading}
+        setIsLoading={setisLoading}
+      />
       <BrowserRouter>
         <nav className="nav-link">
           {Pages.map((page, index) => (
-            <Link className="link" key={`link-${index}`} to={page.path}>
+            <Link
+              className="link"
+              key={`link-${index}`}
+              to={page.path}
+              onClick={() => {
+                setisLoading(true);
+              }}
+            >
               {page.pathname}
             </Link>
           ))}
@@ -32,7 +46,11 @@ const App = () => {
         <div className="content">
           <div className="csp-switch-wrapper">
             <div className="csp-switch">
-              <SwitchCsp state={state} setState={setState} />
+              <SwitchCsp
+                state={state}
+                setState={setState}
+                setIsLoading={setisLoading}
+              />
             </div>
           </div>
           <div className="page-wrapper">
@@ -43,7 +61,7 @@ const App = () => {
                     key={`page-${index}`}
                     path={page.path}
                     element={
-                      <RouterWrapper>
+                      <RouterWrapper isLoading={isLoading}>
                         <page.Element />
                       </RouterWrapper>
                     }
