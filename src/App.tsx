@@ -14,11 +14,6 @@ import { ContentSecurityPolicySrcType } from "./types/ContentSecurityPolicyType"
 import { getCookie, setCookie } from "./utils/cookieUtil";
 import cspSetter from "./utils/cspSetter";
 
-/**
- * list of TODOs
- * - [ ] xss 예시 추가 및 script-src 스위치 추가(실제로 인라인 스크립트가 실행되지 않는 것을 보여줌)
- */
-
 const App = () => {
   const [state, setState] = useState<SwitchCspState>({
     isHttpsEnabled: false,
