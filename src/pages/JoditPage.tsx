@@ -1,17 +1,11 @@
 import { Jodit } from "jodit";
 import { useEffect } from "react";
-import { ContentSecurityPolicyType } from "../types/ContentSecurityPolicyType";
 
 declare global {
   interface Window {
     Jodit: typeof Jodit;
   }
 }
-
-export const JoditCspConfig: ContentSecurityPolicyType = {
-  "default-src": new Set<string>(["'none'"]),
-  "style-src": new Set<string>(["'none'"]),
-};
 
 const JoditPage = () => {
   useEffect(() => {

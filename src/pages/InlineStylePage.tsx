@@ -1,10 +1,4 @@
 import { useEffect, useRef } from "react";
-import { ContentSecurityPolicyType } from "../types/ContentSecurityPolicyType";
-
-export const ViolatedCspConfig: ContentSecurityPolicyType = {
-  "default-src": new Set<string>(["'none'"]),
-  "style-src": new Set<string>(["'none'"]),
-};
 
 const InlineStylePage = () => {
   const inlineStylePageDivRef = useRef<HTMLDivElement | null>(null);

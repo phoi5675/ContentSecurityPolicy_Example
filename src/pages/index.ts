@@ -1,7 +1,7 @@
 import { ContentSecurityPolicyType } from "../types/ContentSecurityPolicyType";
 import HomePage from "./HomePage";
-import InlineStylePage, { ViolatedCspConfig } from "./InlineStylePage";
-import JoditPage, { JoditCspConfig } from "./JoditPage";
+import InlineStylePage from "./InlineStylePage";
+import JoditPage from "./JoditPage";
 import XssPage from "./XssPage";
 
 interface PagesType {
@@ -27,13 +27,11 @@ const Pages: PagesType[] = [
     path: "/inline-style",
     pathname: "Inline-style",
     Element: InlineStylePage,
-    pageCspConfig: ViolatedCspConfig,
   },
   {
     path: "/jodit",
     pathname: "Jodit",
     Element: JoditPage,
-    pageCspConfig: JoditCspConfig,
   },
 ];
 export default Pages;

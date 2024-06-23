@@ -22,9 +22,12 @@ export type SwitchCspDictType = {
 };
 
 export const switchCspDict: SwitchCspDictType = {
-  isHttpsEnabled: { "default-src": new Set<string>(["https:"]) },
+  isHttpsEnabled: {
+    "default-src": new Set<string>(["https:"]),
+  },
   isUnsafeInlineEnabled: {
-    "style-src": new Set<string>(["'unsafe-inline'"]),
+    "default-src": new Set<string>(["'unsafe-inline'"]),
+    "script-src": new Set<string>(["'unsafe-inline'"]),
   },
   isUnsafeHashesEnabled: {
     "default-src": new Set<string>(["'unsafe-hashes'"]),
