@@ -18,7 +18,6 @@ const App = () => {
   const [state, setState] = useState<SwitchCspState>({
     isHttpsEnabled: false,
     isUnsafeInlineEnabled: false,
-    isUnsafeHashesEnabled: false,
   });
 
   useEffect(() => {

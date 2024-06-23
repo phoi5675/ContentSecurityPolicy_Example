@@ -12,7 +12,7 @@ const CspHeaderWrapper = () => {
       "Content-Security-Policy"
     ) as HTMLMetaElement;
 
-    cspMetaRef.current.setAttribute("content", cookieCspContent || "");
+    cspMetaRef.current?.setAttribute("content", cookieCspContent || "");
 
     console.log(`[CspHeader] csp loaded`);
   }, []);

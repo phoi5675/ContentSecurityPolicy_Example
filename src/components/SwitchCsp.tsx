@@ -12,13 +12,11 @@ export interface SwitchCspState {
   [key: string]: boolean;
   isHttpsEnabled: boolean;
   isUnsafeInlineEnabled: boolean;
-  isUnsafeHashesEnabled: boolean;
 }
 
 export type SwitchCspDictType = {
   isHttpsEnabled: ContentSecurityPolicyType;
   isUnsafeInlineEnabled: ContentSecurityPolicyType;
-  isUnsafeHashesEnabled: ContentSecurityPolicyType;
 };
 
 export const switchCspDict: SwitchCspDictType = {
@@ -30,9 +28,6 @@ export const switchCspDict: SwitchCspDictType = {
     "default-src": new Set<string>(["'unsafe-inline'"]),
     "script-src": new Set<string>(["'unsafe-inline'"]),
     "style-src": new Set<string>(["'unsafe-inline'"]),
-  },
-  isUnsafeHashesEnabled: {
-    "default-src": new Set<string>(["'unsafe-hashes'"]),
   },
 };
 
@@ -75,16 +70,6 @@ const SwitchCsp = ({ state, setState, onChangeHandler }: SwitchCspProps) => {
             />
           }
           label="'unsafe-inline'"
-        />
-        <FormControlLabel
-          control={
-            <Switch
-              checked={state.isUnsafeHashesEnabled}
-              onChange={handleChange}
-              name="isUnsafeHashesEnabled"
-            />
-          }
-          label="'unsafe-hashes'"
         />
       </FormGroup>
     </FormControl>
