@@ -24,6 +24,7 @@ export type SwitchCspDictType = {
 export const switchCspDict: SwitchCspDictType = {
   isHttpsEnabled: {
     "default-src": new Set<string>(["https:"]),
+    "script-src": new Set<string>(["https:"]),
   },
   isUnsafeInlineEnabled: {
     "default-src": new Set<string>(["'unsafe-inline'"]),
