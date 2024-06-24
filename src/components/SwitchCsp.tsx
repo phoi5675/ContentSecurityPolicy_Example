@@ -12,11 +12,13 @@ export interface SwitchCspState {
   [key: string]: boolean;
   isHttpsEnabled: boolean;
   isUnsafeInlineEnabled: boolean;
+  isShaEnabled: boolean;
 }
 
 export type SwitchCspDictType = {
   isHttpsEnabled: ContentSecurityPolicyType;
   isUnsafeInlineEnabled: ContentSecurityPolicyType;
+  isShaEnabled: ContentSecurityPolicyType;
 };
 
 export const switchCspDict: SwitchCspDictType = {
@@ -28,6 +30,18 @@ export const switchCspDict: SwitchCspDictType = {
     "default-src": new Set<string>(["'unsafe-inline'"]),
     "script-src": new Set<string>(["'unsafe-inline'"]),
     "style-src": new Set<string>(["'unsafe-inline'"]),
+  },
+  isShaEnabled: {
+    "style-src": new Set<string>([
+      // emotion-sheet 관련
+      "'sha256-47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU='",
+      "'sha256-nTv64G8UKVIXOpC06eRf6TiN+zisoNMOIi+f3CUJP/A='",
+      // Jodit의 ace.js
+      "'sha256-YFgOmo7VipSi3oatfh7T6/2jM+vA82qvEQlE67ZoqJo='",
+      "'sha256-Dn0vMZLidJplZ4cSlBMg/F5aa7Vol9dBMHzBF4fGEtk='",
+      "'sha256-sA0hymKbXmMTpnYi15KmDw4u6uRdLXqHyoYIaORFtjU='",
+      "'sha256-SOw7oHAkZ+mL7wpFKflteSS9kCLcv/jH92ibCU8Qtdk='",
+    ]),
   },
 };
 
@@ -70,6 +84,16 @@ const SwitchCsp = ({ state, setState, onChangeHandler }: SwitchCspProps) => {
             />
           }
           label="'unsafe-inline'"
+        />
+        <FormControlLabel
+          control={
+            <Switch
+              checked={state.isShaEnabled}
+              onChange={handleChange}
+              name="isShaEnabled"
+            />
+          }
+          label="enable hash"
         />
       </FormGroup>
     </FormControl>
