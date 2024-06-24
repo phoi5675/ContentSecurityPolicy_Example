@@ -1,0 +1,38 @@
+@startuml csp_sequence
+
+== Request html ==
+Browser -> Server : Request webpage(html)
+Server --> Browser : Response webpage(html)
+
+== Request css and js ==
+Browser -> Server : Request css, js files
+Server --> Browser : Response css, js files
+
+== Generate CSP by react-helmet-async in Browser ==
+Browser -> Browser  : Generate CSP
+note right
+  브라우저에서 컴포넌트 로딩 이전에
+  <meta http-equiv="Content Security Policy">를 생성하여
+  CSP를 설정
+end note
+
+== Browser check content security policy ==
+Browser -> Browser : Check CSP
+
+group satisfied policy 
+Browser -> Browser : Render elements
+  note right
+  CSP 정책을 만족하는 HTML Element인 경우,
+  브라우저가 해당 Element를 렌더링함
+  end note
+end
+
+group violated policy
+Browser --> Browser : Ignore elements and log error
+  note right
+  CSP 정책을 만족하지 않는 HTML Element인 경우,
+  브라우저가 해당 Element는 렌더링 하지 않고 에러를 출력함
+  end note
+end
+
+@enduml
