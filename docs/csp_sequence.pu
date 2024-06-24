@@ -1,0 +1,38 @@
+@startuml csp_sequence
+
+== Request html ==
+Browser -> Server : Request webpage(html)
+Server --> Browser : Response webpage(html)
+note right
+이 단계에서 아래 방법중 한 가지 방법을 이용하여
+CSP가 브라우저에 전달됨
+- HTTP Header에 포함됨
+- <meta> 태그에 포함됨
+
+브라우저는 이 때 전달된(설정된) 정책을 이용하여 CSP를 적용함
+end note
+
+== Request css and js ==
+Browser -> Server : Request css, js files
+Server --> Browser : Response css, js files
+
+== Browser check content security policy ==
+Browser -> Browser : Check CSP
+
+group satisfied policy 
+Browser -> Browser : Render elements
+  note right
+  CSP 정책을 만족하는 HTML Element인 경우,
+  브라우저가 해당 Element를 렌더링함
+  end note
+end
+
+group violated policy
+Browser --> Browser : Ignore elements and log error
+  note right
+  CSP 정책을 만족하지 않는 HTML Element인 경우,
+  브라우저가 해당 Element는 렌더링 하지 않고 에러를 출력함
+  end note
+end
+
+@enduml
