@@ -41,6 +41,10 @@ export const switchCspDict: SwitchCspDictType = {
       "'sha256-Dn0vMZLidJplZ4cSlBMg/F5aa7Vol9dBMHzBF4fGEtk='",
       "'sha256-sA0hymKbXmMTpnYi15KmDw4u6uRdLXqHyoYIaORFtjU='",
       "'sha256-SOw7oHAkZ+mL7wpFKflteSS9kCLcv/jH92ibCU8Qtdk='",
+      // Jodit
+      "'sha256-8zBvWQJSEHo+e5dNSzujdM7DDDQDpA/YZRzBYEw+nf0='",
+      "'sha256-biLFinpqYMtWHmXfkA1BPeCY0/fNt46SAZ+BBk5YUog='",
+      "'sha256-7OGJQWJFSWcdMlHV1mCjzfesMeIfoV/hCByEIqZSHIg='",
     ]),
   },
 };
